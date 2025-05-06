@@ -1,0 +1,170 @@
+<!-- Conteneur principal -->
+
+<div class="container-xl">
+  <div class="table-responsive">
+      <div class="table-wrapper">
+          <div class="table-title">
+              <div class="row">
+                  <div class="col-sm-8"><h2>Liste des <b> Administrateurs</b></h2></div>
+                  <div class="col-sm-4">
+
+                        <!-- Bouton Ajouter -->
+                        <button nz-button nzType="primary" (click)="showAddForm = !showAddForm">
+                          {{ showAddForm ? 'Annuler' : 'Ajouter un administrateur' }}
+                        </button>
+
+       <div class="search-filter-container">
+        <!-- Barre de recherche -->
+        <div class="search-controls">
+            <input 
+              nz-input 
+              [(ngModel)]="searchTerm" 
+              (input)="onSearchInput()" 
+              placeholder="Rechercher par email ou phone" 
+            />
+          
+          
+          <button 
+            nz-button 
+            nzType="default" 
+            nzShape="round"
+            (click)="resetSearch()"
+            class="reset-btn"
+          >
+            <span nz-icon nzType="redo"></span> Réinitialiser
+          </button>
+        </div>
+      
+        <!-- Filtres par statut -->
+        <div class="status-filters">
+          @for (filter of statusFilters; track filter.value) {
+            <button 
+              nz-button
+              [nzType]="selectedStatus === filter.value ? 'primary' : 'default'"
+              nzShape="round"
+              (click)="onStatusFilter(filter.value)"
+              class="status-btn"
+              [class.active]="selectedStatus === filter.value"
+            >
+              {{ filter.label }}
+            </button>
+          }
+        </div>
+      </div> 
+      
+   
+
+    @if (showAddForm) {
+      <div class="form-container">
+        <form #adminForm="ngForm" (ngSubmit)="onSubmitAdmin(adminForm)">
+          <nz-form-item>
+            <nz-form-label>Nom</nz-form-label>
+            <nz-form-control>
+              <input nz-input [(ngModel)]="newAdmin.first_name" name="first_name" required>
+            </nz-form-control>
+          </nz-form-item>
+  
+          <nz-form-item>
+            <nz-form-label>Prénom</nz-form-label>
+            <nz-form-control>
+              <input nz-input [(ngModel)]="newAdmin.last_name" name="last_name" required>
+            </nz-form-control>
+          </nz-form-item>
+  
+          <p-dropdown [options]="genderOptions" [(ngModel)]="newAdmin.gender" 
+            placeholder="Sélectionnez le genre" optionLabel="label">
+          </p-dropdown>
+  
+          <nz-form-item>
+            <nz-form-label>Téléphone</nz-form-label>
+            <nz-form-control>
+              <input nz-input [(ngModel)]="newAdmin.phone" name="phone" required>
+            </nz-form-control>
+          </nz-form-item>
+  
+          <nz-form-item>
+            <nz-form-label>Email</nz-form-label>
+            <nz-form-control>
+              <input nz-input type="email" [(ngModel)]="newAdmin.email" name="email" required>
+            </nz-form-control>
+          </nz-form-item>
+  
+          @if (!isEditMode) {
+            <nz-form-item>
+              <nz-form-label>Mot de passe</nz-form-label>
+              <nz-form-control>
+                <input nz-input type="password" [(ngModel)]="newAdmin.password" name="password" required>
+              </nz-form-control>
+            </nz-form-item>
+          }
+  
+          <button nz-button nzType="primary" type="submit" [disabled]="adminForm.invalid">
+            {{ isEditMode ? 'Modifier' : 'Ajouter' }}
+          </button>
+        </form>
+      </div>
+    }
+
+  </div>
+</div>
+</div>
+
+
+    <table class="table table-striped table-hover table-bordered">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>first_name</th>
+          <th>last_name</th>
+          <th>Email</th>
+          <th>gender</th>
+          <th>birth_date</th>
+          <th>phone</th>
+          <th>statut</th>
+          <th>Actions</th>
+
+        </tr>
+      </thead>
+      <tbody>
+    
+        <tr *ngFor="let admin of admins[0]?.admins">
+          <td>{{ admin.id }}</td>
+          <td>{{ admin.first_name }}</td>
+          <td>{{ admin.last_name}}</td>
+          <td>{{ admin.email }}</td>
+          <td>{{ admin.gender }}</td>
+          <td>{{ admin.birth_date }}</td>
+          <td>{{ admin.phone }}</td>
+          <td>
+            <select 
+              [(ngModel)]="admin.status"
+              (change)="updateAdminStatus(admin.id, admin.status)"
+              class="status-select"
+            >
+              <option *ngFor="let option of statusOptions" 
+                      [value]="option.value"
+                      [selected]="option.value === admin.status">
+                {{ option.label }}
+              </option>
+            </select>
+          </td>
+          <td>
+                            
+
+            <i nz-icon  *ngIf="!isDeletedStatus" nzType="eye" nzTheme="outline" class="action-icon" (click)="viewAdmin(admin.id)"></i>
+            <i nz-icon *ngIf="!isDeletedStatus"  nzType="edit" nzTheme="outline" class="action-icon" (click)="onEditAdmin(admin.id)"></i>
+            <i nz-icon *ngIf="!isDeletedStatus"  nzType="delete" nzTheme="outline" class="action-icon text-danger" (click)="onDeleteAdmin(admin.id)"></i>
+            <i nz-icon  *ngIf="isDeletedStatus" nzType="eye" nzTheme="outline" class="action-icon" (click)="viewAdmin(admin.id)"></i>
+            <i nz-icon  *ngIf="isDeletedStatus" nzType="delete" nzTheme="outline" class="action-icon" (click)="forceDeleteAdmin(admin.id)"></i>
+            <button
+            *ngIf="isDeletedStatus"
+            (click)="restoreAdmin(admin.id)"
+          >Restaurer</button>
+                                 </td>
+        </tr>
+      </tbody>
+    </table>
+    
+
+
+

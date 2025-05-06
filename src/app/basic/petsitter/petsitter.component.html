@@ -1,0 +1,183 @@
+<div class="container-xl">
+    <div class="table-responsive">
+        <div class="table-wrapper">
+            <div class="table-title">
+                <div class="row">
+                    <div class="col-sm-8"><h2>Liste des <b> Gardiens</b></h2></div>
+                    <div class="col-sm-4">
+                        <button nz-button nzType="primary" (click)="showAddForm = !showAddForm">
+                            {{ showAddForm ? 'Annuler' : 'Ajouter' }}
+                          </button>
+                          <div class="search-filter-container">
+                            <!-- Barre de recherche -->
+                            <div class="search-controls">
+                              <nz-input-group [nzSuffix]="suffixIconSearch" class="search-input">
+                                <input 
+                                  nz-input 
+                                  [(ngModel)]="searchTerm" 
+                                  (input)="onSearchInput()" 
+                                  placeholder="Rechercher par email ou name" 
+                                />
+                              </nz-input-group>
+                              <ng-template #suffixIconSearch>
+                              </ng-template>
+                              
+                              <button 
+                                nz-button 
+                                nzType="default" 
+                                nzShape="round"
+                                (click)="resetSearch()"
+                                class="reset-btn"
+                              >
+                                <span nz-icon nzType="redo"></span> Réinitialiser
+                              </button>
+                            </div>
+                            <div class="status-filters">
+                              @for (filter of statutOptions; track filter.value) {
+                                <button 
+                                  nz-button
+                                  [nzType]="selectedStatus === filter.value ? 'primary' : 'default'"
+                                  nzShape="round"
+                                  (click)="onStatusFilter(filter.value)"
+                                  class="status-btn"
+                                  [class.active]="selectedStatus === filter.value"
+                                >
+                                  {{ filter.label }}
+                                </button>
+                              }
+                            </div>
+                          </div> 
+
+
+                          @if (showAddForm) {
+                            <div class="form-container">
+                              <form #petOwnerForm="ngForm" (ngSubmit)="onSubmitPetSitter(petOwnerForm)">
+                                <nz-form-item>
+                                  <nz-form-label>Nom</nz-form-label>
+                                  <nz-form-control>
+                                    <input nz-input [(ngModel)]="newPetSitter.first_name" name="first_name" required>
+                                  </nz-form-control>
+                                </nz-form-item>
+                          
+                                <nz-form-item>
+                                  <nz-form-label>Prénom</nz-form-label>
+                                  <nz-form-control>
+                                    <input nz-input [(ngModel)]="newPetSitter.last_name" name="last_name" required>
+                                  </nz-form-control>
+                                </nz-form-item>
+                                <nz-form-item>
+                                    <nz-form-label>Tel</nz-form-label>
+                                    <nz-form-control>
+                                      <input nz-input [(ngModel)]="newPetSitter.phone" name="phone" required>
+                                    </nz-form-control>
+                                  </nz-form-item>
+                          
+                                <nz-form-item>
+                                  <nz-form-label>Email</nz-form-label>
+                                  <nz-form-control>
+                                    <input nz-input type="email" [(ngModel)]="newPetSitter.email" name="email" required>
+                                  </nz-form-control>
+                                </nz-form-item>
+                          
+                                @if (!isEditMode) {
+                                  <nz-form-item>
+                                    <nz-form-label>Mot de passe</nz-form-label>
+                                    <nz-form-control>
+                                      <input nz-input type="password" [(ngModel)]="newPetSitter.password" name="password" required>
+                                    </nz-form-control>
+                                  </nz-form-item>
+                          
+                                  <nz-form-item>
+                                    <nz-form-label>Confirmation</nz-form-label>
+                                    <nz-form-control>
+                                      <input nz-input type="password" [(ngModel)]="newPetSitter.password_confirmation" name="password_confirmation" required>
+                                    </nz-form-control>
+                                  </nz-form-item>
+                                }
+                          
+                                
+                          
+                                <button nz-button nzType="primary" type="submit" [disabled]="petOwnerForm.invalid">
+                                  {{ isEditMode ? 'Modifier' : 'Ajouter' }}
+                                </button>
+                              </form>
+                            </div>
+                          }
+                          
+                                              </div>
+                    
+
+                    <div class="col-sm-4">
+                        <div class="search-box">
+                            <i class="material-icons">&#xE8B6;</i>
+                            <input type="text" class="form-control" placeholder="Search&hellip;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <table class="table table-striped table-hover table-bordered">
+                <thead>
+                    <tr>
+                        <th>id</th>
+                        <th>first_name</th>
+                        <th>last_name</th>
+                        <th>phone</th>
+                        <th>gender</th>
+                        <th>Email</th>
+                        <th>Statut</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                    <tr *ngFor="let petSitter of petSitters[0]?.petSitters">
+                        <td>{{ petSitter.id }}</td>
+                        <td>{{ petSitter.first_name }}</td>
+                        <td>{{ petSitter.last_name }}</td>
+                        <td>{{ petSitter.phone }}</td>
+                        <td>{{ petSitter.gender }}</td>
+                        <td>{{ petSitter.email }}</td>
+                        <td><select 
+                            [(ngModel)]="petSitter.status"
+                            (change)="updatePetSitterStatus(petSitter.id, petSitter.status)"
+                            class="status-select"
+                          >
+                            <option *ngFor="let option of statutOptions" 
+                                    [value]="option.value"
+                                    [selected]="option.value === petSitter.status">
+                              {{ option.label }}
+                            </option>
+                          </select>  </td>
+                          <td>
+
+                            <i nz-icon  *ngIf="!isDeletedStatus" nzType="eye" nzTheme="outline" class="action-icon" (click)="viewPetSitter(petSitter.id)"></i>
+                            <i nz-icon  *ngIf="!isDeletedStatus" nzType="edit" nzTheme="outline" class="action-icon" (click)="onEditPetSitter(petSitter)"></i>
+                            <i nz-icon *ngIf="!isDeletedStatus" nzType="delete" nzTheme="outline" class="action-icon text-danger" (click)="ondeleteSitter(petSitter.id)"></i>
+                            <i nz-icon  *ngIf="isDeletedStatus" nzType="eye" nzTheme="outline" class="action-icon" (click)="viewPetSitter(petSitter.id)"></i>
+                            <i nz-icon  *ngIf="isDeletedStatus" nzType="delete" nzTheme="outline" class="action-icon" (click)="forceDeleteSitter(petSitter.id)"></i>
+                            <button
+                            *ngIf="isDeletedStatus"
+                            (click)="restoreSitter(petSitter.id)"
+                          >Restaurer</button>
+                                                 </td>
+                          
+                          
+                    </tr>
+                           
+                </tbody>
+            </table>
+            <div class="clearfix">
+                <div class="hint-text">Showing <b>5</b> out of <b>25</b> entries</div>
+                <ul class="pagination">
+                    <li class="page-item disabled"><a href="#"><i class="fa fa-angle-double-left"></i></a></li>
+                    <li class="page-item"><a href="#" class="page-link">1</a></li>
+                    <li class="page-item"><a href="#" class="page-link">2</a></li>
+                    <li class="page-item active"><a href="#" class="page-link">3</a></li>
+                    <li class="page-item"><a href="#" class="page-link">4</a></li>
+                    <li class="page-item"><a href="#" class="page-link">5</a></li>
+                    <li class="page-item"><a href="#" class="page-link"><i class="fa fa-angle-double-right"></i></a></li>
+                </ul>
+            </div>
+        </div>
+    </div>  
+</div> 

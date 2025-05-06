@@ -1,0 +1,52 @@
+<div class="login-container">
+    <h2>Login Admin</h2>
+    <form  nz-form class="custom-form" [formGroup]="loginForm" (ngSubmit)="submitForm()">
+
+
+
+        <nz-form-item>
+            <nz-form-label [nzRequired]="true" nzFor="email">Email</nz-form-label>
+            <!-- affiche label Email , affiche petite etoile et ndique que c'est required et lie le label à l’id du champ input -->
+
+                <nz-form-control [nzErrorTip]="'Email est requis'"> 
+                <!-- msg d'erreur si le champ est invalide-->
+
+                    <nz-input-group nzprefixIcon=" user"> 
+                        <input type="email" nz-input formControlName="email"  placeholder="Entrez votre email" />
+                        <!-- placeholder: texte affiche lorsque le champ est vide -->
+                    </nz-input-group>
+
+                </nz-form-control>  
+        </nz-form-item>
+
+
+        <nz-form-item>
+            <nz-form-label [nzRequired]="true" nzFor="password">Mot de passe</nz-form-label>
+            <!-- affiche label mot de passe , affiche petite etoile et ndique que c'est required et lie le label à l’id du champ input -->
+
+                <nz-form-control [nzErrorTip]="'Mot de passe est requis'"> 
+                <!-- msg d'erreur si le champ est invalide-->
+
+                    <nz-input-group nzprefixIcon="lock"> 
+                        <input   type="password" nz-input formControlName="password" placeholder="Entrez votre mot de passe" />
+                        <!-- placeholder: texte affiche lorsque le champ est vide -->
+                    </nz-input-group>
+
+                </nz-form-control>  
+        </nz-form-item>
+
+
+        <nz-form-item>
+            <nz-form-control>
+                <label nz-checkbox formControlName="remember" > Se souvenir de moi</label>
+            </nz-form-control>
+        </nz-form-item>
+
+        <button nz-button  [disabled]="loginForm.invalid">Connexion</button>
+</form>>
+
+</div>
+
+
+
+

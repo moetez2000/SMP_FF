@@ -1,0 +1,69 @@
+/* sidebar.component.css */
+
+/* Style de base pour la sidebar */
+.bg-light {
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    width: 4.5rem;
+    background-color: white !important; /* Fond blanc */
+    z-index: 1000;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05); /* Ombre légère */
+    border-right: 1px solid #e9ecef; /* Bordure droite subtile */
+  }
+  
+  /* Style des éléments de navigation */
+  .nav {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .nav-item {
+    width: 100%;
+  }
+  
+  /* Style des liens */
+  .nav-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem 0;
+    color: #495057;
+    transition: all 0.2s ease;
+  }
+  
+  /* Style au survol */
+  .nav-link:hover {
+    background-color: #f8f9fa;
+    color: #0d6efd;
+  }
+  
+  /* Style de l'élément actif */
+  .nav-link.active {
+    background-color: #f1f1f1;
+    color: #0d6efd;
+  }
+  
+  /* Style des icônes */
+  .bi {
+    font-size: 1.25rem;
+    width: 24px;
+    height: 24px;
+}
+
+  
+  /* Bordure des éléments */
+  .border-bottom {
+    border-color: #f1f1f1 !important;
+  }
+  
+  /* Ajustement du contenu principal */
+  .main-content {
+    margin-left: 4.5rem; /* Même largeur que la sidebar */
+    padding: 1rem;
+    min-height: 100vh;
+    transition: margin-left 0.3s;
+  }

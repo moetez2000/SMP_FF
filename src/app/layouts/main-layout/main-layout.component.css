@@ -1,0 +1,7 @@
+/* styles.css */
+.main-content {
+    margin-left: 4.5rem; /* Même largeur que la sidebar */
+    padding: 1rem;
+    min-height: 100vh;
+    transition: margin-left 0.3s;
+  }
