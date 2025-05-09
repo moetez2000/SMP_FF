@@ -9,6 +9,8 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { debounceTime, distinctUntilChanged, Subject, switchMap } from 'rxjs';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzButtonModule } from 'ng-zorro-antd/button';
+import { DropdownModule } from 'primeng/dropdown';
+import { NzDividerModule } from 'ng-zorro-antd/divider';
 
 enum Gender {
   Male = 'Male',
@@ -37,6 +39,8 @@ interface PetSitter{
     NzInputModule,
     ReactiveFormsModule,
         NzButtonModule,
+        DropdownModule,
+        NzDividerModule
   ],
   templateUrl: './petsitter.component.html',
   styleUrl: './petsitter.component.css'
@@ -51,20 +55,37 @@ export class PetsitterComponent {
     { value: 'Blocked', label: 'Blocked' },
     { value: 'Suspended', label: 'Suspended' }
    ];
+   genderOptions = [
+    { value: Gender.Male, label: 'Male' },
+    { value: Gender.Female, label: 'Female' },
+    { value: Gender.Other, label: 'Other' }
+  ];
    isModalVisible = false;
    isEditMode = false;
    showAddForm = false;
-   newPetSitter={
-    id:  null,
-    first_name :'',
+   newPetSitter = {
+    id: null,
+    first_name: '',
     last_name: '',
-    genre:'',
-    phone:'',
+    genre:Gender.Female,
+    phone: '',
     email: '',
     password: '',
     password_confirmation: '',
-    status: 'Active'
-    };
+    status: 'Active',
+  
+    personal_address: {
+      city: '',
+      street: '',
+      zipcode: ''
+    },
+    kennel_address: {
+      city: '',
+      street: '',
+      zipcode: ''
+    }
+  };
+  
     searchSubject = new Subject<string>();
     isDeletedStatus = false;
     searchTerm = '';
@@ -218,15 +239,27 @@ resetForm(): void {
     id: null,
     first_name: '',
     last_name: '',
-    genre:'',
-    phone:'',
+    genre: Gender.Female,
+    phone: '',
     email: '',
     password: '',
     password_confirmation: '',
-    status: 'Active'};
+    status: 'Active',
+    personal_address: {
+      city: '',
+      street: '',
+      zipcode: ''
+    },
+    kennel_address: {
+      city: '',
+      street: '',
+      zipcode: ''
+    }
+  };
   this.isEditMode = false;
   this.showAddForm = false;
 }
+
 openAddModal(): void {
   this.isModalVisible = true;
   this.showAddForm = true;
@@ -312,21 +345,7 @@ ondeleteSitter(petSitterId: number): void {
   });
 }
 restoreSitter(petSitterId: number): void {
-  this.modal.confirm({
-    nzTitle: 'Voulez-vous vraiment restaurer ce Gardien ?',
-    nzOnOk: () => {
-      this.petsitterService.restoreSitter(petSitterId).subscribe({
-        next: () => {
-          this.message.success('Gardien restauré avec succès');
-          this.loadPetSitters();
-        },
-        error: (err) => {
-          this.message.error('Erreur lors de la restauration');
-          console.error(err);
-        }
-      });
-    }
-  });
+ 
 }
 forceDeleteSitter(petSitterId: number): void {
   this.modal.confirm({

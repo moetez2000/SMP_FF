@@ -38,6 +38,8 @@ enum Gender {
   last_name: string;
   email: string;
   password: string;
+  password_confirmation: string;
+
   gender: Gender;
   phone: string;
   status: AdminStatus;
@@ -61,6 +63,7 @@ enum Gender {
     MatSelectModule ,
     MatFormFieldModule,
     DropdownModule
+    
 
     
     
@@ -106,6 +109,8 @@ throw new Error('Method not implemented.');
     last_name: '',
     email: '',
     password: '',
+    password_confirmation: '',
+
     gender: Gender.Female,
     phone: '',
     status: 'Active',
@@ -231,8 +236,20 @@ onStatusFilter(status: string): void {
 }
 
 restoreAdmin(adminId: number): void {
-  this.adminService.restoreAdmin(adminId).subscribe(() => {
-    this.onStatusFilter('Deleted');
+  this.modal.confirm({
+    nzTitle: 'Voulez-vous vraiment restaurer cet admin ?',
+    nzOnOk: () => {
+      this.adminService.restoreAdmin(adminId).subscribe({
+        next: () => {
+          this.message.success('Admin restauré avec succès');
+          this.loadAdmins();
+        },
+        error: (err) => {
+          this.message.error('Erreur lors de la restauration');
+          console.error(err);
+        }
+      });
+    }
   });
 }
 
@@ -350,6 +367,8 @@ restoreAdmin(adminId: number): void {
       last_name: '',
       email: '',
       password: '',
+      password_confirmation: '',
+
       gender: Gender.Female,
       phone: '',
       status: 'Active'

@@ -71,13 +71,69 @@
                                       <input nz-input [(ngModel)]="newPetSitter.phone" name="phone" required>
                                     </nz-form-control>
                                   </nz-form-item>
-                          
+                                  <p-dropdown [options]="genderOptions" [(ngModel)]="newPetSitter.genre" 
+            placeholder="Sélectionnez le genre" optionLabel="label">
+          </p-dropdown>
+                          <!-- Adresse personnelle -->
+<div class="address-block">
+  <h4 class="address-title">Adresse personnelle</h4>
+
+  <nz-form-item>
+    <nz-form-label>Ville</nz-form-label>
+    <nz-form-control>
+      <input nz-input [(ngModel)]="newPetSitter.personal_address.city" name="personal_city" required />
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label>Rue</nz-form-label>
+    <nz-form-control>
+      <input nz-input [(ngModel)]="newPetSitter.personal_address.street" name="personal_street" required />
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label>Code postal</nz-form-label>
+    <nz-form-control>
+      <input nz-input [(ngModel)]="newPetSitter.personal_address.zipcode" name="personal_zipcode" required />
+    </nz-form-control>
+  </nz-form-item>
+</div>
+
+<!-- Adresse de chenil -->
+<div class="address-block">
+  <h4 class="address-title">Avez-vous une adresse de chenil ?</h4>
+
+  <nz-form-item>
+    <nz-form-label>Ville</nz-form-label>
+    <nz-form-control>
+      <input nz-input [(ngModel)]="newPetSitter.kennel_address.city" name="kennel_city" />
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label>Rue</nz-form-label>
+    <nz-form-control>
+      <input nz-input [(ngModel)]="newPetSitter.kennel_address.street" name="kennel_street" />
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label>Code postal</nz-form-label>
+    <nz-form-control>
+      <input nz-input [(ngModel)]="newPetSitter.kennel_address.zipcode" name="kennel_zipcode" />
+    </nz-form-control>
+  </nz-form-item>
+</div>
+
+
                                 <nz-form-item>
                                   <nz-form-label>Email</nz-form-label>
                                   <nz-form-control>
                                     <input nz-input type="email" [(ngModel)]="newPetSitter.email" name="email" required>
                                   </nz-form-control>
                                 </nz-form-item>
+
                           
                                 @if (!isEditMode) {
                                   <nz-form-item>

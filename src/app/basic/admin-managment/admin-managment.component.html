@@ -96,6 +96,12 @@
                 <input nz-input type="password" [(ngModel)]="newAdmin.password" name="password" required>
               </nz-form-control>
             </nz-form-item>
+            <nz-form-item>
+              <nz-form-label>con </nz-form-label>
+              <nz-form-control>
+                <input nz-input type="password" [(ngModel)]="newAdmin.password_confirmation" name="password" required>
+              </nz-form-control>
+            </nz-form-item>
           }
   
           <button nz-button nzType="primary" type="submit" [disabled]="adminForm.invalid">

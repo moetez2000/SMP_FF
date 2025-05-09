@@ -9,6 +9,8 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 import { NzInputModule } from 'ng-zorro-antd/input';
+import { Router } from '@angular/router';
+
 
 @Component({
   standalone: true,
@@ -26,15 +28,16 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 export class LoginComponent {
 
   loginForm!:FormGroup; // le groupe des champs du formulaire
-  router: any;
   
-  constructor(private fb:FormBuilder , private login: LoginService , private message: NzMessageService /*service pour afficher les erreurs */) { 
+  constructor(private fb:FormBuilder , 
+    private login: LoginService , 
+    private message: NzMessageService ,
+    private router: Router/*service pour afficher les erreurs */) { 
    }
   
    onSubmit() {
     this.login.loginUser(this.loginForm).subscribe({
       next: (response: { token: string; }) => {
-        this.router.navigate(['/admin-list']); // Redirection après login
       },
       error: (error) => {
         console.error('Erreur de connexion', error);
@@ -55,6 +58,8 @@ export class LoginComponent {
   submitForm() {
     this.login.loginUser(this.loginForm.value).subscribe(res=>{
       console.log(res);
+      this.router.navigate(['/dashboard']);
+
     },
       
       

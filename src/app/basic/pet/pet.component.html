@@ -1,0 +1,219 @@
+<div class="container-xl">
+    <div class="table-responsive">
+      <div class="table-wrapper">
+        <div class="table-title">
+          <div class="row">
+            <div class="col-sm-8"><h2>Liste des <b>Animaux</b></h2></div>
+            <div class="col-sm-4">
+              <button nz-button nzType="primary" (click)="showAddForm = !showAddForm">
+                {{ showAddForm ? 'Annuler' : 'Ajouter' }}
+              </button>
+              <div class="search-filter-container">
+                <!-- Barre de recherche -->
+                <div class="search-controls">
+                  <nz-input-group [nzSuffix]="suffixIconSearch" class="search-input">
+                    <input 
+                      nz-input 
+                      [(ngModel)]="searchTerm" 
+                      (input)="onSearchInput()" 
+                      placeholder="Rechercher par email ou name" 
+                    />
+                  </nz-input-group>
+                  <ng-template #suffixIconSearch>
+                  </ng-template>
+                  
+                  <button 
+                    nz-button 
+                    nzType="default" 
+                    nzShape="round"
+                    (click)="resetSearch()"
+                    class="reset-btn"
+                  >
+                    <span nz-icon nzType="redo"></span> Réinitialiser
+                  </button>
+                </div>
+               
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        @if (showAddForm) {
+          <div class="form-container">
+            <form #petForm="ngForm" (ngSubmit)="onSubmitPet(petForm)">
+              <nz-form-item>
+                <nz-form-label>PetOwnerId</nz-form-label>
+                <nz-form-control>
+                  <input nz-input [(ngModel)]="newPet.pet_owner_id" name="OwnerId" required>
+                </nz-form-control>
+              </nz-form-item>
+  
+              <nz-form-item>
+                <nz-form-label>Type</nz-form-label>
+                <nz-form-control>
+                  <input nz-input [(ngModel)]="newPet.type" name="Type" required>
+                </nz-form-control>
+              </nz-form-item>
+  
+              <nz-form-item>
+                <nz-form-label>Breed</nz-form-label>
+                <nz-form-control>
+                  <input nz-input [(ngModel)]="newPet.breed" name="Breed" required>
+                </nz-form-control>
+              </nz-form-item>
+  
+              <nz-form-item>
+                <nz-form-label>name</nz-form-label>
+                <nz-form-control>
+                  <input nz-input type="text" [(ngModel)]="newPet.name" name="name" required>
+                </nz-form-control>
+              </nz-form-item>
+              <nz-form-item>
+                <nz-form-label>Genre</nz-form-label>
+                <nz-form-control>
+                  <nz-radio-group [(ngModel)]="newPet.gender" name="gender" required>
+                    <label nz-radio [nzValue]="'Male'">Mâle</label>
+                    <label nz-radio [nzValue]="'Female'">Femelle</label>
+                    <label nz-radio [nzValue]="'Sterilized'">Stérilisé(e)</label>
+                  </nz-radio-group>
+                </nz-form-control>
+              </nz-form-item>
+              
+  
+              <nz-form-item>
+                <nz-form-label>color</nz-form-label>
+                <nz-form-control>
+                  <input nz-input type="color" [(ngModel)]="newPet.color" name="color" required>
+                </nz-form-control>
+              </nz-form-item>
+  
+              <nz-form-item>
+                <nz-form-label>birth_date</nz-form-label>
+                <nz-form-control>
+                  <input nz-input type="date" [(ngModel)]="newPet.birth_date" name="birth_date" required>
+                </nz-form-control>
+              </nz-form-item>
+  
+              <nz-form-item>
+                <nz-form-label>weight</nz-form-label>
+                <nz-form-control>
+                  <input nz-input type="number" [(ngModel)]="newPet.weight" name="weight" required>
+                </nz-form-control>
+              </nz-form-item>
+  
+              <nz-form-item>
+                <nz-form-label>description</nz-form-label>
+                <nz-form-control>
+                  <input nz-input type="text" [(ngModel)]="newPet.description" name="description" required>
+                </nz-form-control>
+              </nz-form-item>
+  
+              <nz-form-item>
+                <nz-form-label>Vacciné ?</nz-form-label>
+                <nz-form-control>
+                  <nz-radio-group [(ngModel)]="newPet.is_vaccinated" name="is_vaccinated">
+                    <label nz-radio [nzValue]="true">Oui</label>
+                    <label nz-radio [nzValue]="false">Non</label>
+                  </nz-radio-group>
+                </nz-form-control>
+              </nz-form-item>
+  
+              <nz-form-item>
+                <nz-form-label>Maladie contagieuse ?</nz-form-label>
+                <nz-form-control>
+                  <nz-radio-group [(ngModel)]="newPet.has_contagious_diseases" name="has_contagious_diseases">
+                    <label nz-radio [nzValue]="true">Oui</label>
+                    <label nz-radio [nzValue]="false">Non</label>
+                  </nz-radio-group>
+                </nz-form-control>
+              </nz-form-item>
+  
+              <nz-form-item>
+                <nz-form-label>Dossier médical ?</nz-form-label>
+                <nz-form-control>
+                  <nz-radio-group [(ngModel)]="newPet.has_medical_file" name="has_medical_file">
+                    <label nz-radio [nzValue]="true">Oui</label>
+                    <label nz-radio [nzValue]="false">Non</label>
+                  </nz-radio-group>
+                </nz-form-control>
+              </nz-form-item>
+  
+              <nz-form-item>
+                <nz-form-label>État critique ?</nz-form-label>
+                <nz-form-control>
+                  <nz-radio-group [(ngModel)]="newPet.is_critical_condition" name="is_critical_condition">
+                    <label nz-radio [nzValue]="true">Oui</label>
+                    <label nz-radio [nzValue]="false">Non</label>
+                  </nz-radio-group>
+                </nz-form-control>
+              </nz-form-item>
+  
+              @if (!isEditMode) {
+                <nz-form-item>
+                  <nz-form-label>Médias (URLs)</nz-form-label>
+                  <nz-form-control>
+                    <textarea
+                      nz-input
+                      name="media"
+                      [(ngModel)]="mediaInput"
+                      placeholder="Entrez une ou plusieurs URLs séparées par une virgule"
+                    ></textarea>
+                  </nz-form-control>
+                </nz-form-item>
+              }
+  
+              <button nz-button nzType="primary" type="submit" [disabled]="petForm.invalid">
+                {{ isEditMode ? 'Modifier' : 'Ajouter' }}
+              </button>
+            </form>
+          </div>
+        }
+  
+        <table class="table table-striped table-hover table-bordered">
+          <thead>
+            <tr>
+              <th>id</th>
+              <th>owner_id</th>
+              <th>type</th>
+              <th>breed</th>
+              <th>name</th>
+              <th>gender</th>
+              <th>birth_date</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let pet of Pets[0]?.Pets">
+              <td>{{ pet.id }}</td>
+              <td>{{ pet.pet_owner_id }}</td>
+              <td>{{ pet.type }}</td>
+              <td>{{ pet.breed }}</td>
+              <td>{{ pet.name }}</td>
+              <td>{{ pet.gender }}</td>
+              <td>{{ pet.birth_date }}</td>
+              <td>
+                <i nz-icon  nzType="edit" nzTheme="outline" class="action-icon" (click)="onEditPet(pet)"></i>
+                <i nz-icon  nzType="eye" nzTheme="outline" class="action-icon" (click)="viewPet(pet.id)"></i>
+                <i nz-icon  nzType="delete" nzTheme="outline" class="action-icon" (click)="onDeletePet(pet.id)"></i>
+
+              </td>
+            </tr>
+          </tbody>
+        </table>
+  
+        <div class="clearfix">
+          <div class="hint-text">Showing <b>5</b> out of <b>25</b> entries</div>
+          <ul class="pagination">
+            <li class="page-item disabled"><a href="#"><i class="fa fa-angle-double-left"></i></a></li>
+            <li class="page-item"><a href="#" class="page-link">1</a></li>
+            <li class="page-item"><a href="#" class="page-link">2</a></li>
+            <li class="page-item active"><a href="#" class="page-link">3</a></li>
+            <li class="page-item"><a href="#" class="page-link">4</a></li>
+            <li class="page-item"><a href="#" class="page-link">5</a></li>
+            <li class="page-item"><a href="#" class="page-link"><i class="fa fa-angle-double-right"></i></a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  

@@ -6,6 +6,7 @@ import { MainLayoutComponent } from './layouts/main-layout/main-layout.component
 import { LoginLayoutComponent } from './layouts/login-layout/login-layout.component';
 import { PetownerComponent } from './basic/petowner/petowner.component';
 import { PetsitterComponent } from './basic/petsitter/petsitter.component';
+import { PetComponent } from './basic/pet/pet.component';
 
 export const routes: Routes = [
     {
@@ -18,6 +19,8 @@ export const routes: Routes = [
           { path: 'dashboard', component: DashboardComponent },
           {path:'petowners' ,component:PetownerComponent},
           {path:'petsitters' ,component:PetsitterComponent},
+          {path:'pets' ,component:PetComponent},
+
 
 
           // autres routes privées ici
