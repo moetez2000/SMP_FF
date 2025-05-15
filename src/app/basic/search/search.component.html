@@ -1,0 +1,183 @@
+<div class="container-xl">
+  <nz-card nzTitle="Gestion des Recherches" [nzBordered]="true" class="mb-4">
+
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+      <button nz-button nzType="primary" (click)="showAddForm = !showAddForm">
+        {{ showAddForm ? 'Annuler' : 'Ajouter une Recherche' }}
+      </button>
+      
+      <!-- Barre de recherche -->
+      <input 
+        nz-input 
+        [(ngModel)]="searchTerm" 
+        (input)="onFilterInput()" 
+        placeholder="Rechercher nom du proprietaire ou type de garde"
+        style="max-width: 300px;"
+      />
+     
+    </div>
+     <!-- Barre de recherche -->
+     
+  </nz-card>
+
+
+  <nz-card *ngIf="showAddForm" nzTitle="{{ isEditMode ? 'Modifier' : 'Ajouter' }}" [nzBordered]="true" class="mb-4">
+    <form #searchForm="ngForm" (ngSubmit)="onSubmitSearch(searchForm)">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <ng-container *ngIf="!isEditMode">
+            <nz-form-item>
+              <nz-form-label>Propriétaire</nz-form-label>
+              <nz-select
+                [(ngModel)]="newSearch.user_id"
+                (ngModelChange)="onOwnerChange($event)"
+                name="user_id"
+                placeholder="Choisir un propriétaire"
+              >
+                <nz-option
+                  *ngFor="let petOwner of petOwners[0]?.petOwners"
+                  [nzValue]="petOwner.id"
+                  [nzLabel]="petOwner.first_name + ' ' + petOwner.last_name"
+                ></nz-option>
+              </nz-select>
+            </nz-form-item>
+
+            <nz-form-item>
+              <nz-form-label>Animal</nz-form-label>
+              <nz-select
+                [(ngModel)]="newSearch.pet_id"
+                name="pet_id"
+                placeholder="Choisir un animal"
+              >
+                <nz-option *ngFor="let pet of Pets" [nzValue]="pet.id" [nzLabel]="pet.name"></nz-option>
+              </nz-select>
+            </nz-form-item>
+          </ng-container>
+            <label>Description</label>
+            <textarea class="form-control" [(ngModel)]="newSearch.description" name="description"></textarea>
+          </div>
+
+          <div class="form-group">
+            <label>Type de garde</label>
+            <select class="form-control" [(ngModel)]="newSearch.care_type" name="care_type" required>
+              <option value="chez_proprietaire">Chez le propriétaire</option>
+              <option value="en_chenil">En chenil</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Durée</label>
+            <input type="text" class="form-control" [(ngModel)]="newSearch.care_duration" name="care_duration" required />
+          </div>
+
+          <div class="form-group">
+            <label>Date de début</label>
+            <input type="date" class="form-control" [(ngModel)]="newSearch.start_date" name="start_date" required />
+          </div>
+
+          <div class="form-group">
+            <label>Date de fin</label>
+            <input type="date" class="form-control" [(ngModel)]="newSearch.end_date" name="end_date" required />
+          </div>
+
+          <div class="form-group">
+            <label>Services attendus</label>
+            <input type="text" class="form-control" [(ngModel)]="newSearch.expected_services" name="expected_services" />
+          </div>
+
+          <div class="form-group">
+            <label>Rémunération min</label>
+            <input type="number" class="form-control" [(ngModel)]="newSearch.remunerationMin" name="remunerationMin" />
+          </div>
+
+          <div class="form-group">
+            <label>Rémunération max</label>
+            <input type="number" class="form-control" [(ngModel)]="newSearch.remunerationMax" name="remunerationMax" />
+          </div>
+
+         
+
+          <input type="hidden" [(ngModel)]="formData.latitude" name="latitude">
+          <input type="hidden" [(ngModel)]="formData.longitude" name="longitude">
+
+          <button type="button" class="btn btn-secondary mb-2" (click)="openMap()">Sélectionner</button>
+
+          <!-- MODALE POUR LA CARTE -->
+          <div class="map-modal" *ngIf="showMap">
+            <div class="map-modal-content">
+              <h4>Sélectionnez une position sur la carte</h4>
+              <div id="map" style="height: 400px;"></div>
+              <div class="map-actions">
+                <button (click)="closeMap()">Confirmer</button>
+              </div>
+            </div>
+          </div>
+           <div class="form-group">
+            <label>Adresse</label>
+            <input type="text" class="form-control" [(ngModel)]="formData.adresse"
+             name="adresse"      placeholder="Adresse choisi sur la carte"
+ required />
+          </div>
+
+          <!-- Carte affichée conditionnellement -->
+          <div *ngIf="showMap" id="map" style="height: 400px;"></div>
+
+          
+                  </div>
+
+
+          <button nz-button nzType="primary" type="submit" [disabled]="searchForm.invalid">
+            {{ isEditMode ? 'Modifier' : 'Ajouter' }}
+          </button>
+      </div>
+    </form>
+  </nz-card>
+
+<nz-card nzTitle="Liste des Recherches" [nzBordered]="true">
+    <div class="table-responsive">
+      <table class="table table-striped table-hover table-bordered w-100">    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Id_Propriétaire</th>
+        <th>Nom_Propriétaire</th>
+        <th>Id_Animal</th>
+        <th>Nom_Animal</th>
+        <th>Son espèce</th>
+
+        <th>Adresse</th>
+        <th>Type de garde</th>
+        <th>Durée</th>
+        <th>Date Début</th>
+        <th>Date Fin</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let search of Searchs">
+        <td>{{ search.id }}</td>
+        <td>{{ search.user_id }}</td>
+        <td>{{ search.user_name }}</td>
+        <td>{{ search.pet_id }}</td>
+        <td>{{ search.pet_name }}</td>
+        <td>{{ search.pet_type }}</td>
+
+        <td>{{ search.adresse }}</td>
+        <td>{{ search.care_type }}</td>
+
+        <td>{{ search.care_duration }}</td>
+        <td>{{ search.start_date | date: 'dd/MM/yyyy' }}</td>
+        <td>{{ search.end_date | date: 'dd/MM/yyyy' }}</td>
+        <td>
+          <i nz-icon nzType="eye" nzTheme="outline" class="action-icon" (click)="viewSearch(search.id)"></i>
+          <i nz-icon nzType="edit" nzTheme="outline" class="action-icon" (click)="onEditSearch(search)"></i>
+          <i nz-icon nzType="delete" nzTheme="outline" class="action-icon text-danger" (click)="ondeleteSearch(search.id)"></i>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+  </nz-card>
+</div>
+
+  

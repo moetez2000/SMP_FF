@@ -9,6 +9,8 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { debounceTime, distinctUntilChanged, Subject, switchMap } from 'rxjs';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzCardModule } from 'ng-zorro-antd/card';
+
 interface PetOwner {
   id: number | null;
   first_name: string;
@@ -30,6 +32,7 @@ interface PetOwner {
     NzInputModule,  
       ReactiveFormsModule,
       NzButtonModule,
+      NzCardModule,
       
 
   ],
@@ -253,11 +256,18 @@ resetForm(): void {
   this.isEditMode = false;
   this.showAddForm = false;
 }
+
+
 openAddModal(): void {
+  this.resetForm(); // remet à zéro si on ajoute
+  this.isEditMode = false;
   this.isModalVisible = true;
-  this.showAddForm = true;
-  this.resetForm();
 }
+
+handleCancelModal(): void {
+  this.isModalVisible = false;
+}
+
 ondeletePetOwner(petOwnerId: number): void {
   this.modal.confirm({
     nzTitle: 'Voulez-vous vraiment supprimer ce propriétaire d\'animal?',

@@ -36,17 +36,17 @@ updateStatut(petSitterId: number, newStatus: string): Observable<any> {
       // Assurez-vous que l'URL et les paramètres sont corrects
       return this.http.put(`${this.apiUrl}/updateStatut/${petSitterId}`, { status: newStatus });
     }
-  addPetSitter(petSitterData: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/add`, petSitterData).pipe(
-      catchError(error => {
-        if (error.status === 422) {
-          // Gestion des erreurs de validation
-          return throwError(() => error.error.errors);
-        }
-        return throwError(() => 'Une erreur est survenue');
-      })
-    );
-  }
+ addPetSitter(petSitterData: FormData): Observable<any> {
+  return this.http.post(`${this.apiUrl}/add`, petSitterData).pipe(
+    catchError(error => {
+      if (error.status === 422) {
+        return throwError(() => error.error.errors);
+      }
+      return throwError(() => 'Une erreur est survenue');
+    })
+  );
+}
+
  updatePetSitter(petSitterId: number, petSitterData: any): Observable<any> {
     return this.http.put(`${this.apiUrl}/update/${petSitterId}`, petSitterData).pipe(
       catchError(error => {

@@ -8,7 +8,7 @@ export function loginInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn)
   if (!req.url.includes('/api/login')) {
     return next(req); // Laisse passer les autres requêtes
   }
-  console.log('🔐 Intercepteur Login activé pour :', req.url); // 👈 ICI
+  console.log('🔐 Intercepteur Login activé pour :', req.url); 
 
 
   // 2. Ajoute les headers spécifiques au login (optionnel)

@@ -20,10 +20,12 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { MatSelectModule } from '@angular/material/select';
 // Dans votre module
 import { DropdownModule } from 'primeng/dropdown';
+import { NzCardModule } from 'ng-zorro-antd/card';
+
 
 // Removed NzOptionModule as it is not exported by ng-zorro-antd/select
 
-type AdminStatus = 'Active' | 'Inactive' | 'Suspended';
+type AdminStatus = 'Active' | 'Inactive' | 'Suspended '| 'Deleted' | 'Blocked ';
 
 enum Gender {
   Male = 'Male',
@@ -62,7 +64,8 @@ enum Gender {
     NzInputModule,
     MatSelectModule ,
     MatFormFieldModule,
-    DropdownModule
+    DropdownModule,
+     NzCardModule
     
 
     
@@ -276,7 +279,6 @@ restoreAdmin(adminId: number): void {
               <p><strong>Gender :</strong> ${admin.gender}</p>
               <p><strong>Birth_Date :</strong> ${admin.birth_date}</p>
               <p><strong>Statut :</strong> ${admin.Status}</p>
-              <p><strong>permissions :</strong> ${permissions.length ? permissions.join(', ') : 'Aucune'}</p>
               <p><strong>createdAt :</strong> ${createdAt}</p>
               <p><strong>updatedAt :</strong> ${updatedAt}</p>
               <p><strong>deletedAt :</strong> ${deletedAt}</p>

@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, tap } from 'rxjs';
 
 
-const baseUrl = "http://localhost:8000"; // Remplacez par l'URL de votre API
+const baseUrl = "http://localhost:8000"; 
 @Injectable({
   providedIn: 'root'
 })

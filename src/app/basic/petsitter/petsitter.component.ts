@@ -11,6 +11,8 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { DropdownModule } from 'primeng/dropdown';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
+import { NzRadioModule } from 'ng-zorro-antd/radio';
+import { NzCardModule } from 'ng-zorro-antd/card';
 
 enum Gender {
   Male = 'Male',
@@ -21,7 +23,7 @@ interface PetSitter{
   id: number | null;
   first_name: string;
   last_name: string;
-  genre:Gender,
+  gender:Gender,
   phone:string,
   email: string;
   password: string;
@@ -40,7 +42,9 @@ interface PetSitter{
     ReactiveFormsModule,
         NzButtonModule,
         DropdownModule,
-        NzDividerModule
+        NzDividerModule,
+        NzRadioModule,
+        NzCardModule
   ],
   templateUrl: './petsitter.component.html',
   styleUrl: './petsitter.component.css'
@@ -55,6 +59,7 @@ export class PetsitterComponent {
     { value: 'Blocked', label: 'Blocked' },
     { value: 'Suspended', label: 'Suspended' }
    ];
+  
    genderOptions = [
     { value: Gender.Male, label: 'Male' },
     { value: Gender.Female, label: 'Female' },
@@ -67,7 +72,7 @@ export class PetsitterComponent {
     id: null,
     first_name: '',
     last_name: '',
-    genre:Gender.Female,
+    gender:Gender.Female,
     phone: '',
     email: '',
     password: '',
@@ -86,10 +91,12 @@ export class PetsitterComponent {
     }
   };
   
+  
     searchSubject = new Subject<string>();
     isDeletedStatus = false;
     searchTerm = '';
     selectedStatus: string | null = null;  // lié au nz-select
+    ACACED: File | null = null;
 
 
 
@@ -200,11 +207,26 @@ updatePetSitterStatus(petSitterId: number, newStatus: string) : void {
   });
 }
 
-onEditPetSitter(peSitter: any): void {
-  this.newPetSitter = { ...peSitter };
+onEditPetSitter(petSitter: any): void {
+  this.newPetSitter = {
+    ...petSitter,
+    personal_address: {
+      city: petSitter.personal_address?.city || '',
+      street: petSitter.personal_address?.street || '',
+      zipcode: petSitter.personal_address?.zipcode || '',
+    },
+    kennel_address: {
+      city: petSitter.kennel_address?.city || '',
+      street: petSitter.kennel_address?.street || '',
+      zipcode: petSitter.kennel_address?.zipcode || '',
+    }
+  };
+  console.log(this.newPetSitter);  // Vérifie les données ici
   this.isEditMode = true;
   this.showAddForm = true;
 }
+
+
 onSubmitPetSitter(form: NgForm): void {
   if (form.invalid) return;
 
@@ -221,7 +243,33 @@ onSubmitPetSitter(form: NgForm): void {
       }
     });
   } else {
-    this.petsitterService.addPetSitter(this.newPetSitter).subscribe({
+    // Construction du FormData pour l'ajout avec fichier
+    const formData = new FormData();
+
+    formData.append('first_name', this.newPetSitter.first_name);
+    formData.append('last_name', this.newPetSitter.last_name);
+    formData.append('gender', this.newPetSitter.gender);
+    formData.append('phone', this.newPetSitter.phone);
+    formData.append('email', this.newPetSitter.email);
+    formData.append('password', this.newPetSitter.password);
+    formData.append('password_confirmation', this.newPetSitter.password_confirmation);
+    formData.append('status', this.newPetSitter.status);
+
+    // Adresses : aplatir les objets
+    formData.append('personal_address[city]', this.newPetSitter.personal_address.city);
+    formData.append('personal_address[street]', this.newPetSitter.personal_address.street);
+    formData.append('personal_address[zipcode]', this.newPetSitter.personal_address.zipcode);
+
+    formData.append('kennel_address[city]', this.newPetSitter.kennel_address.city);
+    formData.append('kennel_address[street]', this.newPetSitter.kennel_address.street);
+    formData.append('kennel_address[zipcode]', this.newPetSitter.kennel_address.zipcode);
+
+    // Fichier ACACED
+    if (this.ACACED) {
+      formData.append('ACACED', this.ACACED);
+    }
+
+    this.petsitterService.addPetSitter(formData).subscribe({
       next: () => {
         this.message.success('gardien ajouté avec succès');
         this.resetForm();
@@ -234,12 +282,20 @@ onSubmitPetSitter(form: NgForm): void {
     });
   }
 }
+onAcacedFileSelected(event: any): void {
+  const file = event.target.files[0];
+  if (file) {
+    this.ACACED = file;
+  }
+}
+
+
 resetForm(): void {
   this.newPetSitter = {
     id: null,
     first_name: '',
     last_name: '',
-    genre: Gender.Female,
+    gender: Gender.Female,
     phone: '',
     email: '',
     password: '',

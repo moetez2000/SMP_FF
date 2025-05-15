@@ -34,6 +34,15 @@ export class LoginComponent {
     private message: NzMessageService ,
     private router: Router/*service pour afficher les erreurs */) { 
    }
+   ngOnInit() {
+    this.loginForm = this.fb.group({
+      email: [null,[Validators.required]],
+
+      password: [null,[Validators.required]],
+
+      remember: [true]}
+    ); //case coché par defaut
+  }
   
    onSubmit() {
     this.login.loginUser(this.loginForm).subscribe({
@@ -45,15 +54,7 @@ export class LoginComponent {
     });
   }
 
-  ngOnInit() {
-    this.loginForm = this.fb.group({
-      email: [null,[Validators.required]],
-
-      password: [null,[Validators.required]],
-
-      remember: [true]}
-    ); //case coché par defaut
-  }
+  
  
   submitForm() {
     this.login.loginUser(this.loginForm.value).subscribe(res=>{
