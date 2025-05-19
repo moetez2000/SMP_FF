@@ -11,8 +11,8 @@
         nz-input 
         [(ngModel)]="searchTerm" 
         (input)="onSearchInput()" 
-        placeholder="Rechercher par email ou téléphone"
-        style="max-width: 300px;"
+        placeholder="Rechercher par email téléphone ou nom"
+        style="max-width: 70%;"
       />
 
       <button 
@@ -70,6 +70,7 @@
                 [(ngModel)]="newPetSitter.gender"
                 placeholder="Sélectionnez le genre" 
                 optionLabel="label"
+                optionValue="value"
                 name="gender">
               </p-dropdown>
             </nz-form-control>
@@ -81,6 +82,13 @@
               <input nz-input [(ngModel)]="newPetSitter.phone" name="phone" required />
             </nz-form-control>
           </nz-form-item>
+          
+          <nz-form-item>
+  <nz-form-label>Date de naissance</nz-form-label>
+  <nz-form-control>
+    <input nz-input type="date" [(ngModel)]="newPetSitter.birth_date" name="birth_date" />
+  </nz-form-control>
+</nz-form-item>
 
           <nz-form-item>
             <nz-form-label>Email</nz-form-label>
@@ -184,6 +192,7 @@
             <th>Prénom</th>
             <th>Email</th>
             <th>Téléphone</th>
+            <th>ACACED</th>
             <th>Statut</th>
             <th>Actions</th>
           </tr>
@@ -195,6 +204,13 @@
             <td>{{ petSitter.last_name}}</td>
             <td>{{ petSitter.email }}</td>
             <td>{{ petSitter.phone }}</td>
+            <td>
+            <a *ngIf="petSitter.ACACED" [href]="petSitter.ACACED" target="_blank" rel="noopener noreferrer">
+              Voir certificat
+            </a>
+            <span *ngIf="!petSitter.ACACED">Aucun certificat</span>
+          </td>
+
             <td>
               <select 
                 [(ngModel)]="petSitter.status"

@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { PostulationService } from '../../services/postulation.service';
-import { PetsitterService } from '../../services/petsitter.service';
 
 import { CommonModule } from '@angular/common';
 import { FormGroup, FormsModule, NgForm, ReactiveFormsModule } from '@angular/forms';
@@ -57,12 +56,14 @@ StatutOptions = [
 searchSubject = new Subject<string>();
   
 searchTerm = '';
+selectedStatus: string | null = null;  // lié au nz-select
+showSittersList = false;
+
 
 
   constructor( private postulationService: PostulationService ,
           private message: NzMessageService,
               private modal: NzModalService,
-           private   petsitterService: PetsitterService,
                private searchService:SearchService
               
           
@@ -111,9 +112,9 @@ searchTerm = '';
     }
   );
 }
-
+ //seuls qui ont le statut active
   loadPetSitters() {
-    this.petsitterService.getPetsitters().subscribe({
+    this.postulationService.getPetsitterss().subscribe({
       next: (data) => {
         console.log('Données reçues:', data);
         this.petSitters = Array.isArray(data) ? data : [];
@@ -139,19 +140,7 @@ searchTerm = '';
       }
     });
     }
-// ⚠️ À appeler à chaque case cochée/décochée
-    onSitterCheckboxChange(id: number, event: Event): void {
-  const input = event.target as HTMLInputElement;
-  const checked = input.checked;
 
-  if (checked) {
-    if (!this.newPostulation.pet_sitter_ids.includes(id)) {
-      this.newPostulation.pet_sitter_ids.push(id);
-    }
-  } else {
-    this.newPostulation.pet_sitter_ids = this.newPostulation.pet_sitter_ids.filter(sid => sid !== id);
-  }
-}
 
 
 
@@ -213,10 +202,52 @@ onFilterInput(): void {
     this.searchSubject.next(this.searchTerm.trim());
   } 
 
-
+onStatutFilter(statut:string):void{
+  this.postulationService.getByStatut(statut).subscribe({
+    next: data => {
+      console.log('Résultat filtre statut :', data);
+      if (Array.isArray(data)) {
+        this.Postulations = data;
   
+      }      
+    },
+    error: err => {
+      console.error(err);
+      this.Postulations = [];
+     
+    }
+  });
+}
 
+onSitterSelectChange(event: Event): void {
+  const selectElement = event.target as HTMLSelectElement;
+  const selectedOptions = Array.from(selectElement.selectedOptions).map(
+    (option) => Number(option.value)
+  );
+  // Traitez les IDs sélectionnés comme vous le souhaitez
+  console.log('IDs sélectionnés :', selectedOptions);
+  // Par exemple, vous pouvez les stocker dans un tableau
+  this.newPostulation.pet_sitter_ids = selectedOptions;
+}
+// ⚠️ À appeler à chaque case cochée/décochée
+    onSitterCheckboxChange(id: number, event: Event): void {
+  const input = event.target as HTMLInputElement;
+  const checked = input.checked;
 
+  if (checked) {
+    if (!this.newPostulation.pet_sitter_ids.includes(id)) {
+      this.newPostulation.pet_sitter_ids.push(id);
+    }
+  } else {
+    this.newPostulation.pet_sitter_ids = this.newPostulation.pet_sitter_ids.filter(sid => sid !== id);
+  }
+}
+toggleSittersList() {
+  this.showSittersList = !this.showSittersList;
+}
+resetSearch(): void {
+  this.searchTerm = '';
+  this.loadPostulations(); // Réutilise la méthode existante
+}
 
-    
 }

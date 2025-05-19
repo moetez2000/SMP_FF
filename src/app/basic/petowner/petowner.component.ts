@@ -161,7 +161,6 @@ restoreOwner(petOwnerId: number): void {
       this.PetownerService.restoreOwner(petOwnerId).subscribe({
         next: () => {
           this.message.success('Propriétaire d\'animal restauré avec succès');
-          this.loadPetOwners();
         },
         error: (err) => {
           this.message.error('Erreur lors de la restauration');
@@ -196,9 +195,13 @@ updatePetOwnerStatut(petOwnerId: number, newStatus: string): void {
   const oldStatus = petOwner.status;
   petOwner.status = newStatus;
 
+
+
   this.PetownerService.updateStatut(petOwnerId, newStatus).subscribe({
       next: (response) => {
           console.log('Mise à jour réussie', response);
+            this.loadPetOwners();
+
       },
       error: (err) => {
           console.error('Erreur de mise à jour:', err);

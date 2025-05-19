@@ -1,87 +1,121 @@
-/* login.component.css */
-.login-container {
-    max-width: 400px;
-    margin: 3rem auto;
-    padding: 2.5rem;
-    background: white;
-    border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-    border: 1px solid #e8e8e8;
-  }
-  
-  .login-container h2 {
-    color: #2c3e50;
-    text-align: center;
-    margin-bottom: 1.5rem;
-    font-size: 1.8rem;
-    font-weight: 600;
-  }
-  
-  /* Style des champs de formulaire */
-  nz-form-item {
-    margin-bottom: 1.25rem;
-  }
-  
-  nz-input-group {
-    border-radius: 6px;
-    border: 1px solid #d9d9d9;
-    transition: all 0.3s;
-  }
-  
-  nz-input-group:hover {
-    border-color: #ffa940; /* Orange léger au survol */
-  }
-  
-  nz-input-group.nz-input-group-focused {
-    border-color: #52c41a; /* Vert quand le champ est focus */
-    box-shadow: 0 0 0 2px rgba(82, 196, 26, 0.2);
-  }
-  
-  /* Icônes */
-  [nz-icon] {
-    color: #52c41a; /* Vert pour les icônes */
-  }
-  
-  /* Bouton de connexion */
-  button[nz-button] {
-    width: 100%;
-    height: 40px;
-    font-weight: 500;
-    background-color: #52c41a; /* Vert */
-    border: none;
-    transition: all 0.3s;
-  }
-  
-  button[nz-button]:hover {
-    background-color: #73d13d; /* Vert plus clair */
-  }
-  
-  button[nz-button]:disabled {
-    background-color: #f5f5f5;
-    color: rgba(0, 0, 0, 0.25);
-  }
-  
-  /* Checkbox "Se souvenir de moi" */
-  nz-checkbox label {
-    color: #595959;
-  }
-  
-  nz-checkbox ::ng-deep .ant-checkbox-checked .ant-checkbox-inner {
-    background-color: #52c41a; /* Vert */
-    border-color: #52c41a;
-  }
-  
-  /* Messages d'erreur */
-  [nzerrortip] {
-    color: #ff4d4f; /* Rouge pour les erreurs */
-  }
-  
-  /* Animation subtle au chargement */
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  
-  .login-container {
-    animation: fadeIn 0.4s ease-out;
-  }
+.login-wrapper {
+  height: 100vh;
+  background-color: #dff6dd; /* vert clair pastel très fin */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 30px;
+}
+
+.login-card {
+  width: 90vw;
+  max-width: 1100px;
+  padding: 40px 50px;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+  background-color: #ffffff;
+  text-align: center;
+}
+.login-title {
+  font-size: 2.8rem;
+  font-weight: 700;
+  color: #3a5939;              /* vert foncé doux */
+  text-align: center;
+  margin-bottom: 30px;
+  text-transform: uppercase;  /* tout en majuscule */
+  letter-spacing: 2px;
+  text-shadow: 1px 1px 2px rgba(58, 89, 57, 0.3);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.custom-form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  align-items: stretch;
+}
+
+.login-input {
+  border-radius: 14px;
+  border: 1.5px solid #cdd7de;
+  padding: 14px 16px;
+  font-size: 2rem;
+  color: #5a6a75;
+  background-color: #f9fbfc;
+  transition: border-color 0.25s;
+}
+
+.login-input:focus {
+  border: 2.5px solid #2e7d32; /* bordure plus épaisse et vert foncé */
+  outline: none;
+  box-shadow: 0 0 10px rgba(46, 125, 50, 0.5); /* légère lueur verte */
+  transition: background-color 0.25s, border-color 0.25s, box-shadow 0.25s;
+}
+
+
+.nz-form-item:last-child nz-form-control {
+  display: flex;
+  justify-content: flex-start; /* aligne à gauche */
+}
+
+.nz-form-item:last-child nz-form-control label {
+  cursor: pointer;
+  font-size: 1rem;
+  color: #5a6a75;
+}
+/* Conteneur du checkbox pour aligner à gauche */
+.remember-me-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start; /* tout à gauche */
+  margin-bottom: 20px; /* espace sous le checkbox */
+}
+/* Checkbox coché - couleur verte */
+::ng-deep .ant-checkbox-checked .ant-checkbox-inner {
+  background-color: #4caf50 !important;  /* vert */
+  border-color: #4caf50 !important;
+}
+
+/* Le petit tick dans la checkbox */
+::ng-deep .ant-checkbox-checked .ant-checkbox-inner::after {
+  border-color: white !important; /* tick blanc */
+}
+
+/* Au focus ou hover sur la checkbox (optionnel) */
+::ng-deep .ant-checkbox-wrapper:hover .ant-checkbox-inner,
+::ng-deep .ant-checkbox:hover .ant-checkbox-inner {
+  border-color: #4caf50 !important;
+}
+
+/* Style du label */
+.remember-me-label {
+  font-size: 1.7rem;      /* plus grand */
+  margin-left: 8px;       /* un petit espace après la case */
+  user-select: none;      /* empêche la sélection involontaire */
+  cursor: pointer;        /* indique que c'est cliquable */
+}
+
+.submit-btn {
+  width: 100%;
+  height: 56px;               /* hauteur fixe suffisante */
+  font-size: 1.4rem;
+  font-weight: 700;
+  border-radius: 14px;
+  background-color: #4caf50;
+  border: none;
+  color: #fff;
+
+  display: flex;             /* active flexbox */
+  align-items: center;       /* centre verticalement */
+  justify-content: center;   /* centre horizontalement */
+
+  cursor: pointer;
+  transition: background-color 0.25s ease;
+  padding: 0 20px;           /* padding horizontal */
+  box-sizing: border-box;
+}
+
+.submit-btn:hover:not(:disabled) {
+  background-color: #3a9a38;
+}
+

@@ -54,20 +54,7 @@ export class SearchComponent {
 
   showForm = false;
 
-formData = {
-  user_id: '',
-  pet_id: '',
-  adresse: '',
-  description: '',
-  care_type: '',
-  care_duration: '',
-  start_date: '',
-  end_date: '',
-  expected_services: '',
-  remunerationMin: null,
-  remunerationMax: null,
-  latitude: '',
-  longitude: ''};
+
 
     map: any;
     marker: any;
@@ -206,7 +193,27 @@ onSubmitSearch(form: NgForm): void {
       }
     });
   }else {
-    this.searchService.addSearch(this.newSearch).subscribe({
+        const formData = new FormData();
+        // Ajout des champs un par un
+  formData.append('user_id', this.newSearch.user_id);
+  formData.append('pet_id', this.newSearch.pet_id);
+  formData.append('adresse', this.newSearch.adresse);
+  formData.append('description', this.newSearch.description);
+  formData.append('care_type', this.newSearch.care_type);
+  formData.append('care_duration', this.newSearch.care_duration);
+  formData.append('start_date', this.newSearch.start_date);
+  formData.append('end_date', this.newSearch.end_date);
+  formData.append('expected_services', this.newSearch.expected_services);
+  formData.append('remunerationMin', String(this.newSearch.remunerationMin));
+formData.append('remunerationMax', String(this.newSearch.remunerationMax));
+
+  
+ 
+
+  formData.append('latitude', this.newSearch.latitude);
+  formData.append('longitude', this.newSearch.longitude);
+
+    this.searchService.addSearch(formData).subscribe({
       next: () => {
         this.message.success('Recherche ajoutée avec succès');
         this.resetForm();
@@ -273,8 +280,8 @@ openMap() {
         const lat = e.latlng.lat;
         const lng = e.latlng.lng;
 
-        this.formData.latitude = lat;
-        this.formData.longitude = lng;
+this.newSearch.latitude = lat;
+        this.newSearch.longitude = lng;
 
         L.marker([lat, lng]).addTo(this.map)
           .bindPopup('Position sélectionnée')
@@ -300,8 +307,8 @@ resetMarker() {
     if (this.marker) {
       this.map.removeLayer(this.marker);
       this.marker = null;
-      this.formData.latitude = '';
-      this.formData.longitude = '';
+      this.newSearch.latitude = '';
+      this.newSearch.longitude = '';
     }
   }
 
@@ -317,15 +324,19 @@ getAddressFromCoordinates(lat: number, lng: number): void {
     .then(data => {
       if (data && data.address) {
         // Remplir le champ adresse avec les informations renvoyées par l'API
-        this.formData.adresse = data.address.road ? `${data.address.road}, ${data.address.city}, ${data.address.country}` : "Adresse non trouvée";
+this.newSearch.adresse = data.address.road
+  ? `${data.address.road}, ${data.address.city || data.address.town || ''}, ${data.address.country || ''}`
+  : "Adresse non trouvée";
       } else {
-        this.formData.adresse = "Adresse non trouvée";
-      }
+  this.newSearch.adresse = "Adresse non trouvée";
+}
+
     })
     .catch(error => {
-      console.error('Erreur lors de la récupération de l\'adresse :', error);
-      this.formData.adresse = "Erreur de géocodage";
-    });
+  console.error('Erreur lors de la récupération de l\'adresse :', error);
+  this.newSearch.adresse = "Erreur de géocodage";
+});
+
 }
 ondeleteSearch(searchId: number): void {
   this.modal.confirm({

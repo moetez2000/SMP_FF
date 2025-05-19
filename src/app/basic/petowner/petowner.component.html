@@ -12,7 +12,7 @@
         [(ngModel)]="searchTerm" 
         (input)="onSearchInput()" 
         placeholder="Rechercher par email ou téléphone"
-        style="max-width: 300px;"
+        style="max-width: 100%;"
       />
 
       <button 
@@ -128,7 +128,7 @@
               </select>
             </td>
             <td>
-              <i nz-icon nzType="eye" nzTheme="outline" class="me-2" (click)="viewPetOwner(petOwner.id)"></i>
+              <i nz-icon  nzType="eye" nzTheme="outline" class="me-2" (click)="viewPetOwner(petOwner.id)"></i>
               <i nz-icon *ngIf="!isDeletedStatus" nzType="edit" nzTheme="outline" class="me-2" (click)="onEditPetOwner(petOwner.id)"></i>
               <i nz-icon *ngIf="!isDeletedStatus" nzType="delete" nzTheme="outline" class="text-danger me-2" (click)="ondeletePetOwner(petOwner.id)"></i>
               <i nz-icon *ngIf="isDeletedStatus" nzType="delete" nzTheme="outline" class="text-danger me-2" (click)="forceDeleteOwner(petOwner.id)"></i>

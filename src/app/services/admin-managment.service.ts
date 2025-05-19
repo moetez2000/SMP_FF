@@ -28,7 +28,7 @@ interface ApiResponse {
   providedIn: 'root'
 }) // rend service disponible partout dans l'app : pas besoin de le declarer dans un module
 export class AdminManagmentService {
-  private apiUrl = 'http://localhost:8000/api/admins';
+  private apiUrl = 'http://localhost:8000/api/backoffice/admins';
   //url vers le backend  
   private adminsSubject = new BehaviorSubject<any[]>([]);
   admins = this.adminsSubject.asObservable();

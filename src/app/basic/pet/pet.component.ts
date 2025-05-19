@@ -71,12 +71,73 @@ export class PetComponent {
     selectedMedia: File[] = [];
 
 
-  animalTypes: string[] = ['Chien', 'Chat'];
+animalTypes: string[] = [
+  'Chien',
+  'Chat',
+  'Lapin',
+  'Oiseau',
+  'Poisson',
+  'Souris',
+  'Tortue',
+  'Autre'
+];
 
 animalBreeds: { [key: string]: string[] } = {
-  'Chien': ['Labrador', 'Berger Allemand', 'Bulldog'],
-  'Chat': ['Siamois', 'Persan', 'Maine Coon']
+  'Chien': [
+    'Labrador',
+    'Berger Allemand',
+    'Bulldog',
+    'Golden Retriever',
+    'Beagle',
+    'Caniche',
+    'Husky',
+    'Shih Tzu'
+  ],
+  'Chat': [
+    'Siamois',
+    'Persan',
+    'Maine Coon',
+    'Bengal',
+    'Sphynx',
+    'Ragdoll'
+  ],
+  'Lapin': [
+    'Holland Lop',
+    'Netherland Dwarf',
+    'Angora',
+    'Rex'
+  ],
+  'Oiseau': [
+    'Perruche',
+    'Canari',
+    'Calopsitte',
+    'Perroquet'
+  ],
+  'Poisson': [
+    'Poisson rouge',
+    'Combattant',
+    'Guppy',
+    'Scalaire'
+  ],
+  'Souris': [
+    'Rat',
+    'Hamster',
+    'Cochon d\'Inde',
+    'Souris'
+  ],
+  'Tortue': [
+    'Tortue d’Hermann',
+    'Tortue grecque',
+    'Tortue à oreilles rouges'
+  ],
+  'Autre': [
+    'Furet',
+    'Iguane',
+    'Serpent',
+    'Hérisson'
+  ]
 };
+
 filteredBreeds: string[] = [];
 onTypeChange(type: string) {
   this.filteredBreeds = this.animalBreeds[type] || [];

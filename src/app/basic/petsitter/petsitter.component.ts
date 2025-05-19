@@ -25,6 +25,7 @@ interface PetSitter{
   last_name: string;
   gender:Gender,
   phone:string,
+  bith_date: string;
   email: string;
   password: string;
   password_confirmation: string;
@@ -74,10 +75,11 @@ export class PetsitterComponent {
     last_name: '',
     gender:Gender.Female,
     phone: '',
+    birth_date: '',
     email: '',
     password: '',
     password_confirmation: '',
-    status: 'Active',
+    status: 'Pending',
   
     personal_address: {
       city: '',
@@ -143,6 +145,7 @@ export class PetsitterComponent {
             });
     
   }
+  
   loadPetSitters() {
     this.petsitterService.getPetsitters().subscribe({
       next: (data) => {
@@ -196,6 +199,7 @@ updatePetSitterStatus(petSitterId: number, newStatus: string) : void {
   this.petsitterService.updateStatut(petSitterId, newStatus).subscribe({
       next: (response) => {
           console.log('Mise à jour réussie', response);
+          this.loadPetSitters
       },
       error: (err) => {
           console.error('Erreur de mise à jour:', err);
@@ -250,6 +254,7 @@ onSubmitPetSitter(form: NgForm): void {
     formData.append('last_name', this.newPetSitter.last_name);
     formData.append('gender', this.newPetSitter.gender);
     formData.append('phone', this.newPetSitter.phone);
+    formData.append('birth_date', this.newPetSitter.birth_date);
     formData.append('email', this.newPetSitter.email);
     formData.append('password', this.newPetSitter.password);
     formData.append('password_confirmation', this.newPetSitter.password_confirmation);
@@ -290,6 +295,7 @@ onAcacedFileSelected(event: any): void {
 }
 
 
+
 resetForm(): void {
   this.newPetSitter = {
     id: null,
@@ -297,6 +303,7 @@ resetForm(): void {
     last_name: '',
     gender: Gender.Female,
     phone: '',
+    birth_date: '',
     email: '',
     password: '',
     password_confirmation: '',
@@ -337,7 +344,7 @@ viewPetSitter(petSitterId: number): void {
             <div class="custom-modal-content">
               <p><strong>Nom :</strong> ${petSitter.first_name} ${petSitter.last_name}</p>
               <p><strong>Email :</strong> ${petSitter.email}</p>
-              <p><strong>Phone :</strong> ${petSitter.Phone}</p>
+              <p><strong>Phone :</strong> ${petSitter.phone}</p>
               <p><strong>Experience :</strong> ${petSitter.experience}</p>
               <p><strong>personalQualities :</strong> ${petSitter.personalQualities}</p>
               <p><strong>skills :</strong> ${petSitter.skills}</p>
@@ -401,8 +408,25 @@ ondeleteSitter(petSitterId: number): void {
   });
 }
 restoreSitter(petSitterId: number): void {
+  this.modal.confirm({
+    nzTitle: 'Voulez-vous vraiment restaurer ce gardien ?',
+    nzOnOk: () => {
+      this.petsitterService.restoreSitter(petSitterId).subscribe({
+        next: () => {
+          this.message.success('Gardien restauré avec succès');
+          this.loadPetSitters();
+        },
+        error: (err) => {
+          this.message.error('Erreur lors de la restauration');
+          console.error(err);
+        }
+      });
+    }
+  });
+
  
 }
+
 forceDeleteSitter(petSitterId: number): void {
   this.modal.confirm({
     nzTitle: 'Voulez-vous vraiment supprimer définitivement ce Gardien ?',

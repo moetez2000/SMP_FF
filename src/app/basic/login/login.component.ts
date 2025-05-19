@@ -10,6 +10,7 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { Router } from '@angular/router';
+import { NzCardModule } from 'ng-zorro-antd/card';
 
 
 @Component({
@@ -20,7 +21,8 @@ import { Router } from '@angular/router';
     NzInputModule,
     NzCheckboxModule,
     NzButtonModule,
-    NzIconModule],
+    NzIconModule,
+  NzCardModule],
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
@@ -45,7 +47,7 @@ export class LoginComponent {
   }
   
    onSubmit() {
-    this.login.loginUser(this.loginForm).subscribe({
+    this.login.loginAdmin(this.loginForm).subscribe({
       next: (response: { token: string; }) => {
       },
       error: (error) => {
@@ -57,7 +59,7 @@ export class LoginComponent {
   
  
   submitForm() {
-    this.login.loginUser(this.loginForm.value).subscribe(res=>{
+    this.login.loginAdmin(this.loginForm.value).subscribe(res=>{
       console.log(res);
       this.router.navigate(['/dashboard']);
 

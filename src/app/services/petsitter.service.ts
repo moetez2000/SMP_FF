@@ -5,11 +5,11 @@ import { catchError, map, Observable, of, throwError } from 'rxjs';
   providedIn: 'root'
 })
 export class PetsitterService {
-  private apiUrl = 'http://localhost:8000/api/petsitters';
+  private apiUrl = 'http://localhost:8000/api/backoffice/petsitters';
 
 
   constructor(private http: HttpClient) { }
-getPetsitters(): Observable<any[]> { /* retoune observale contenant tab d'element (les admins)*/
+  getPetsitters(): Observable<any[]> { /* retoune observale contenant tab d'element (les admins)*/
 
 return this.http.get<any>(this.apiUrl ).pipe(
   // faire une requete Get vers 'apiUrl' avec les headers

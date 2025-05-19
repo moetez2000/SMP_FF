@@ -1,85 +1,109 @@
 <div class="container-xl">
-  <div class="table-responsive">
-    <div class="table-wrapper">
-      <div class="table-title">
-        <div class="row">
-          <div class="col-sm-8">
-            <h2>Liste des <b>Postulations</b></h2>
-          </div>
-          <div class="col-sm-4 d-flex justify-content-end align-items-center">
-             <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+
+  <!-- Card 1 : Actions + Recherche + Filtres -->
+  <nz-card nzTitle="Gestion des Postulations" [nzBordered]="true" class="mb-4">
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+
       <button nz-button nzType="primary" (click)="showAddForm = !showAddForm">
-        {{ showAddForm ? 'Annuler' : 'Postuler pour des Grdiens' }}
+        {{ showAddForm ? 'Annuler' : 'Postuler pour des Gardiens' }}
       </button>
-       <input 
+
+      <input 
         nz-input 
         [(ngModel)]="searchTerm" 
         (input)="onFilterInput()" 
-        placeholder="Rechercher par proprietaire ou gardien"
+        placeholder="Rechercher par Nom du gardien"
         style="max-width: 300px;"
       />
-          </div>
-             <!-- ✅ FORMULAIRE DE POSTULATION -->
-      <nz-card *ngIf="showAddForm" nzTitle="Nouvelle Postulation" class="mb-4" [nzBordered]="true">
-        <form #form="ngForm" (ngSubmit)="onSubmitPostulation(form)">
-          
-          <!-- Sélection de recherche -->
-          <label for="search_id">Choisir une recherche :</label>
-          <select
-            id="search_id"
-            [(ngModel)]="newPostulation.search_id"
-            name="search_id"
-            required
-            class="form-control mb-3"
-          >
- <option *ngFor="let s of Searchs" [ngValue]="s.id">
-   {{ s.id }} — {{ s.user_name }} — {{ s.pet_type }} ({{ s.start_date| date:'dd/MM/yyyy' }} → {{ s.end_date| date:'dd/MM/yyyy' }}) à {{ s.adresse }}
-  </option>          </select>
-                    
 
-          <!-- Liste des gardiens avec cases à cocher -->
-          <label>Choisir un ou plusieurs gardiens :</label>
-         <div *ngFor="let sitter of petSitters[0]?.petSitters" class="checkbox-line">
-  <label
-    [ngClass]="{
-      'already-postulated': hasAlreadyPostulated(sitter.id)
-    }"
-  >
-    <input
-      type="checkbox"
-      [value]="sitter.id"
-      [disabled]="hasAlreadyPostulated(sitter.id)"
-      (change)="onSitterCheckboxChange(sitter.id, $event)"
-    />
-    {{ sitter.first_name }} {{ sitter.last_name }}
-    <span *ngIf="hasAlreadyPostulated(sitter.id)" class="badge bg-success">
-      Déjà postulé
-    </span>
-  </label>
-</div>
+      <button 
+        nz-button 
+        nzType="default" 
+        nzShape="round"
+        (click)="resetSearch()"
+        class="reset-btn"
+      >
+        <span nz-icon nzType="redo"></span> Réinitialiser
+      </button>
+    </div>
 
+    <div class="mt-3">
+      <button 
+        *ngFor="let filter of StatutOptions"
+        nz-button
+        [nzType]="selectedStatus === filter.value ? 'primary' : 'default'"
+        nzShape="round"
+        (click)="onStatutFilter(filter.value)"
+        [class.active]="selectedStatus === filter.value"
+      >
+        {{ filter.label }}
+      </button>
+    </div>
+  </nz-card>
 
-          <!-- Bouton de soumission -->
-          <button nz-button nzType="primary" type="submit" class="mt-3">Confirmer</button>
-        </form>
-      </nz-card>
+  <!-- Card 2 : Formulaire de Postulation (toggle) -->
+  <nz-card *ngIf="showAddForm" nzTitle="Nouvelle Postulation" [nzBordered]="true" class="mb-4">
+    <form #form="ngForm" (ngSubmit)="onSubmitPostulation(form)">
+      
+      <!-- Sélection de la recherche -->
+      <label for="search_id">Choisir une recherche :</label>
+      <select
+        id="search_id"
+        [(ngModel)]="newPostulation.search_id"
+        name="search_id"
+        required
+        class="form-control mb-3"
+      >
+        <option *ngFor="let s of Searchs" [value]="s.id">
+          {{ s.id }} — {{ s.user_name }} — {{ s.pet_type }} 
+          ({{ s.start_date | date:'dd/MM/yyyy' }} → {{ s.end_date | date:'dd/MM/yyyy' }}) à {{ s.adresse }}
+        </option>
+      </select>
 
+      <!-- Choix des gardiens avec toggle -->
+      <label (click)="showSittersList = !showSittersList" style="cursor: pointer; user-select:none;">
+        Choisir un ou plusieurs gardiens
+        <span [style.transform]="showSittersList ? 'rotate(90deg)' : 'rotate(0)'" 
+              style="display:inline-block; transition: transform 0.3s;">
+          ▶
+        </span>
+      </label>
 
-          </div>
+      <div *ngIf="showSittersList" class="mt-2">
+        <div *ngFor="let sitter of petSitters[0]?.petSitters" class="checkbox-line">
+          <label [ngClass]="{'already-postulated': hasAlreadyPostulated(sitter.id)}">
+            <input
+              type="checkbox"
+              [value]="sitter.id"
+              [disabled]="hasAlreadyPostulated(sitter.id)"
+              (change)="onSitterCheckboxChange(sitter.id, $event)"
+            />
+            {{ sitter.id }} {{ sitter.first_name }} {{ sitter.last_name }}
+            <span *ngIf="hasAlreadyPostulated(sitter.id)" class="badge bg-success ms-2">
+              Déjà postulé
+            </span>
+          </label>
         </div>
       </div>
 
+      <button nz-button nzType="primary" type="submit" class="mt-3" [disabled]="form.invalid">
+        Confirmer
+      </button>
+    </form>
+  </nz-card>
 
-      <table class="table table-striped table-hover table-bordered">
+  <!-- Card 3 : Liste des postulations -->
+  <nz-card nzTitle="Liste des postulations" [nzBordered]="true">
+    <div class="table-responsive">
+      <table class="table table-striped table-hover table-bordered w-100">
         <thead>
           <tr>
             <th>ID</th>
-            <th>id_gardien</th>
-            <th> Gardien</th>
-            <th>Recherche N</th>
+            <th>ID Gardien</th>
+            <th>Gardien</th>
+            <th>Recherche N°</th>
             <th>Propriétaire</th>
             <th>Statut</th>
-            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -87,10 +111,9 @@
             <td>{{ postulation.id }}</td>
             <td>{{ postulation.sitter_id }}</td>
             <td>{{ postulation.sitter_name }}</td>
-
             <td>{{ postulation.search_id }}</td>
             <td>{{ postulation.owner_name }}</td>
-             <td>
+            <td>
               <select 
                 [(ngModel)]="postulation.statut"
                 (change)="updateStatut(postulation.id, postulation.statut)"
@@ -101,26 +124,9 @@
                 </option>
               </select>
             </td>
-            <td>
-              <i nz-icon nzType="eye" nzTheme="outline" class="action-icon" title="Voir"></i>
-              <i nz-icon nzType="delete" nzTheme="outline" class="action-icon text-danger" title="Supprimer"></i>
-            </td>
           </tr>
         </tbody>
       </table>
-
-      <div class="clearfix d-flex justify-content-between align-items-center px-2 mt-3">
-        <div class="hint-text">Affichage de <b>5</b> sur <b>25</b> entrées</div>
-        <ul class="pagination mb-0">
-          <li class="page-item disabled"><a href="#"><i class="fa fa-angle-double-left"></i></a></li>
-          <li class="page-item"><a href="#" class="page-link">1</a></li>
-          <li class="page-item"><a href="#" class="page-link">2</a></li>
-          <li class="page-item active"><a href="#" class="page-link">3</a></li>
-          <li class="page-item"><a href="#" class="page-link">4</a></li>
-          <li class="page-item"><a href="#" class="page-link">5</a></li>
-          <li class="page-item"><a href="#" class="page-link"><i class="fa fa-angle-double-right"></i></a></li>
-        </ul>
-      </div>
     </div>
-  </div>
-</div>
+
+    

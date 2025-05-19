@@ -5,8 +5,8 @@ import { catchError, map, Observable, of, throwError } from 'rxjs';
   providedIn: 'root'
 })
 export class PetService {
-  private apiUrl = 'http://localhost:8000/api/pets';
-  private apiUrl2 = 'http://localhost:8000/api/petowners';
+  private apiUrl = 'http://localhost:8000/api/backoffice/pets';
+  private apiUrl2 = 'http://localhost:8000/api/backoffice/petowners';
 
 
   constructor(private http: HttpClient) { }

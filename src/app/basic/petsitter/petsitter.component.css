@@ -373,3 +373,19 @@ button[nz-button][nzType="primary"] {
     margin-bottom: 1.2rem;
   }
 }
+.error-message {
+  color: #ff4d4f;
+  font-size: 0.8em;
+  margin-top: 3px;
+}
+
+[nz-form] {
+  nz-form-control {
+    &.ng-invalid.ng-touched,
+    &.ng-invalid.ng-dirty {
+      .ant-input {
+        border-color: #ff4d4f;
+      }
+    }
+  }
+}

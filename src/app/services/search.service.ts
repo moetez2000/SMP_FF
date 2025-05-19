@@ -6,9 +6,9 @@ import { catchError, map, Observable, of, throwError } from 'rxjs';
   providedIn: 'root'
 })
 export class SearchService {
-  private apiUrl = 'http://localhost:8000/api/SearchSitter';
-  private apiUrl2 = 'http://localhost:8000/api/petowners';
-    private apiUrl3 = 'http://localhost:8000/api/pets';
+  private apiUrl = 'http://localhost:8000/api/backoffice/SearchSitter';
+  private apiUrl2 = 'http://localhost:8000/api/backoffice/petowners';
+    private apiUrl3 = 'http://localhost:8000/api/backoffice/pets';
 
 
   constructor(private http: HttpClient) { }
@@ -61,7 +61,7 @@ getPetOwners(): Observable<any[]> { /* retoune observale contenant tab d'element
   );
 }
 getPetsByOwner(ownerId: number): Observable<any[]> {
-  return this.http.get<any>(`http://localhost:8000/api/pets/owner/${ownerId}`).pipe(
+  return this.http.get<any>(`http://localhost:8000/api/backoffice/pets/owner/${ownerId}`).pipe(
     map(response => {
       // Vérifie si la clé "Pets" existe et retourne les pets
       return response.Pets || []; // Renvoie les pets ou un tableau vide si aucun pet trouvé
@@ -76,7 +76,7 @@ getPetsByOwner(ownerId: number): Observable<any[]> {
 
 
 
-addSearch( searchData: any): Observable<any> {
+addSearch( searchData: FormData): Observable<any> {
   return this.http.post(`${this.apiUrl}/add`, searchData).pipe(
     catchError(error => {
       if (error.status === 422) {

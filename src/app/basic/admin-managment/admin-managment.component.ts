@@ -278,7 +278,7 @@ restoreAdmin(adminId: number): void {
               <p><strong>Phone :</strong> ${admin.phone}</p>
               <p><strong>Gender :</strong> ${admin.gender}</p>
               <p><strong>Birth_Date :</strong> ${admin.birth_date}</p>
-              <p><strong>Statut :</strong> ${admin.Status}</p>
+              <p><strong>Statut :</strong> ${admin.status}</p>
               <p><strong>createdAt :</strong> ${createdAt}</p>
               <p><strong>updatedAt :</strong> ${updatedAt}</p>
               <p><strong>deletedAt :</strong> ${deletedAt}</p>
@@ -316,7 +316,7 @@ restoreAdmin(adminId: number): void {
     this.adminService.updateStatus(adminId, newStatus).subscribe({
         next: (response) => {
             console.log('Update successful', response);
-        },
+            this.loadAdmins();        },
         error: (err) => {
             console.error('Update error:', err);
             admin.status = oldStatus;
