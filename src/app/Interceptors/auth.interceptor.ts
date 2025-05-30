@@ -10,7 +10,7 @@ export const authInterceptor: HttpInterceptorFn = (
 
   const token = localStorage.getItem('auth_token');
 
-  if (req.url.includes('/api/login')) {
+  if (req.url.includes('/api/adminlogin')) {
     return next(req);
   }
 

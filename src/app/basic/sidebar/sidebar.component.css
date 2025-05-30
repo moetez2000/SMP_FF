@@ -1,69 +1,78 @@
-/* sidebar.component.css */
-
-/* Style de base pour la sidebar */
-.bg-light {
-    position: fixed;
-    left: 0;
-    top: 0;
-    height: 100vh;
-    width: 4.5rem;
-    background-color: white !important; /* Fond blanc */
-    z-index: 1000;
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05); /* Ombre légère */
-    border-right: 1px solid #e9ecef; /* Bordure droite subtile */
-  }
-  
-  /* Style des éléments de navigation */
-  .nav {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .nav-item {
-    width: 100%;
-  }
-  
-  /* Style des liens */
-  .nav-link {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 1rem 0;
-    color: #495057;
-    transition: all 0.2s ease;
-  }
-  
-  /* Style au survol */
-  .nav-link:hover {
-    background-color: #f8f9fa;
-    color: #0d6efd;
-  }
-  
-  /* Style de l'élément actif */
-  .nav-link.active {
-    background-color: #f1f1f1;
-    color: #0d6efd;
-  }
-  
-  /* Style des icônes */
-  .bi {
-    font-size: 1.25rem;
-    width: 24px;
-    height: 24px;
+/* Container principal de la sidebar */
+.d-flex.flex-column {
+  width: 200px;               /* augmentez la largeur selon vos besoins */
+  height: 100vh;              /* prend toute la hauteur de la fenêtre */
+  position: fixed;            /* reste fixe lors du scroll */
+  top: 0;
+  left: 0;
+  background-color: #f8f9fa;  /* gris clair */
+  border-right: 1px solid #dee2e6;
+  overflow-y: auto;           /* scroll si contenu trop grand */
+  transition: width 0.3s ease;
 }
 
-  
-  /* Bordure des éléments */
-  .border-bottom {
-    border-color: #f1f1f1 !important;
+/* Liste de navigation */
+.nav {
+  margin-top: 1rem;
+  padding-left: 0;
+}
+
+/* Styles des liens */
+.nav-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #495057;
+  font-size: 1.25rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid #dee2e6;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+/* Icônes centrées */
+.nav-link i {
+  font-size: 1.5rem;
+}
+
+/* État hover */
+.nav-link:hover {
+  background-color: #e9ecef;
+  color: #212529;
+}
+
+/* État actif via routerLinkActive */
+.nav-link.active {
+background: linear-gradient(135deg, #a8e6cf 0%, #ffd3b6 100%);
+  color: #fff;
+}
+
+/* Masquer le texte du tooltip natif si besoin */
+.nav-link[title] {
+  position: relative;
+}
+
+/* Optionnel : afficher un label sur hover */
+.nav-link[title]:hover::after {
+  content: attr(title);
+  position: absolute;
+  left: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  margin-left: 0.5rem;
+  padding: 0.25rem 0.5rem;
+  background: rgba(0,0,0,0.75);
+  color: #fff;
+  white-space: nowrap;
+  border-radius: 0.25rem;
+  font-size: 0.875rem;
+}
+
+/* Ajustement responsive : réduire la sidebar sur écrans étroits */
+@media (max-width: 768px) {
+  .d-flex.flex-column {
+    width: 80px;
   }
-  
-  /* Ajustement du contenu principal */
-  .main-content {
-    margin-left: 4.5rem; /* Même largeur que la sidebar */
-    padding: 1rem;
-    min-height: 100vh;
-    transition: margin-left 0.3s;
+  .nav-link:hover::after {
+    display: none; /* désactive les labels si trop petit */
   }
+}

@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, tap } from 'rxjs';
 
 
-const baseUrl = "http://localhost:8000/api/backoffice/"; 
+const baseUrl = "http://localhost:8000/api/"; 
 @Injectable({
   providedIn: 'root'
 })
@@ -12,7 +12,7 @@ export class LoginService {
   constructor(private http: HttpClient) {}
   
   loginAdmin(loginData: any): Observable<any> {
-    return this.http.post(baseUrl + "login", loginData).pipe(
+    return this.http.post(baseUrl + "adminlogin", loginData).pipe(
       tap((response: any) => {
         // Stockage du token dans localStorage s'il existe        
         if (response?.token) {

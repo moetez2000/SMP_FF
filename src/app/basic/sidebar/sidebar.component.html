@@ -1,43 +1,56 @@
 <div class="d-flex flex-column flex-shrink-0 bg-light" style="width: 4.5rem;">
-    <ul class="nav nav-pills nav-flush flex-column mb-auto text-center">
-      <li class="nav-item">
-        <a href="dashboard" class="nav-link active py-3 border-bottom" aria-current="page" title="Dashboard" data-bs-toggle="tooltip" data-bs-placement="right">
-          <i class="bi bi-speedometer2" width="24" height="24"></i>
-        </a>
-      </li>
-      <li>
-        <a href="admins" class="nav-link py-3 border-bottom" title="Admins" data-bs-toggle="tooltip" data-bs-placement="right">
-          <i class="bi bi-person-gear" width="24" height="24"></i>
-        </a>
-      </li>
-      <li>
-        <a href="petsitters" class="nav-link py-3 border-bottom" title="PetSitters" data-bs-toggle="tooltip" data-bs-placement="right">
-          <i class="bi bi-person-lines-fill" width="24" height="24"></i>
-        </a>
-      </li>
-      <li>
-        <a href="petowners" class="nav-link py-3 border-bottom" title="PetOwners" data-bs-toggle="tooltip" data-bs-placement="right">
-          <i class="bi bi-person-bounding-box" width="24" height="24"></i>
-        </a>
-      </li>
-      <li>
-        <a href="pets" class="nav-link py-3 border-bottom" title="Pets" data-bs-toggle="tooltip" data-bs-placement="right">
-          <i class="bi bi-heart-pulse" width="24" height="24"></i>
-        </a>
-        
-      </li>
-       <li>
-        <a href="searchs" class="nav-link py-3 border-bottom" title="searchs" data-bs-toggle="tooltip" data-bs-placement="right">
-          <i class="bi bi-search" width="24" height="24"></i>
-        </a>
-        
-      </li>
-       <li>
-        <a href="postulations" class="nav-link py-3 border-bottom" title="postulations" data-bs-toggle="tooltip" data-bs-placement="right">
-          <i class="bi bi-person-workspace" width="24" height="24"></i>
-        </a>
-        
-      </li>
-      
-    </ul>
-  </div>
+  <ul class="nav nav-pills nav-flush flex-column mb-auto text-center">
+   <li>
+      <a 
+        routerLink="dashboard" 
+        routerLinkActive="active" 
+        class="nav-link py-3 border-bottom" 
+        title="Dashboard"
+        data-bs-toggle="tooltip" 
+        data-bs-placement="right">
+        <i class="bi bi-speedometer2"></i>
+      </a>
+    </li>
+    <li>
+      <a 
+        routerLink="admins" 
+        routerLinkActive="active" 
+        class="nav-link py-3 border-bottom" 
+        title="Admins"
+        data-bs-toggle="tooltip" 
+        data-bs-placement="right">
+        <i class="bi bi-person-gear"></i>
+      </a>
+    </li>
+    <li>
+      <a href="petsitters" class="nav-link py-3 border-bottom" routerLink="petsitters" 
+        routerLinkActive="active"  title="PetSitters" data-bs-toggle="tooltip" data-bs-placement="right">
+        <i class="bi bi-person-lines-fill"></i>
+      </a>
+    </li>
+    <li>
+      <a href="petowners" class="nav-link py-3 border-bottom" routerLink="petowners" 
+        routerLinkActive="active"  title="PetOwners" data-bs-toggle="tooltip" data-bs-placement="right">
+        <i class="bi bi-person-bounding-box"></i>
+      </a>
+    </li>
+    <li>
+      <a href="pets" class="nav-link py-3 border-bottom"routerLink="pets" 
+        routerLinkActive="active"  data-bs-toggle="tooltip" data-bs-placement="right">
+        <i class="bi bi-heart-pulse"></i>
+      </a>
+    </li>
+    <li>
+      <a href="searchs" class="nav-link py-3 border-bottom" routerLink="searchs" 
+        routerLinkActive="active"  title="Searchs" data-bs-toggle="tooltip" data-bs-placement="right">
+        <i class="bi bi-search"></i>
+      </a>
+    </li>
+    <li>
+      <a href="postulations" class="nav-link py-3 border-bottom" routerLink="postulations" 
+        routerLinkActive="active"  title="Postulations" data-bs-toggle="tooltip" data-bs-placement="right">
+        <i class="bi bi-person-workspace"></i>
+      </a>
+    </li>
+  </ul>
+</div>

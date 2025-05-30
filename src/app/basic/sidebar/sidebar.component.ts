@@ -1,20 +1,20 @@
 import { Component, AfterViewInit } from '@angular/core';
 import * as bootstrap from 'bootstrap'; // Import Bootstrap
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-sidebar',
   standalone: true,
-  imports: [],
+  imports: [RouterModule],
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.css'],
 })
-export class SidebarComponent implements AfterViewInit {
-  
-  ngAfterViewInit(): void {
-    // Initialize tooltips
-    const tooltipTriggerList = Array.from(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-    tooltipTriggerList.forEach(tooltipTriggerEl => {
-      new bootstrap.Tooltip(tooltipTriggerEl); // Use the imported bootstrap
-    });
+export class SidebarComponent  {
+   activePage: string = 'dashboard'; // Par défaut, la page active est "dashboard"
+
+  setActive(page: string): void {
+    this.activePage = page;
   }
+  
+  
 }

@@ -5,7 +5,7 @@ import { catchError } from 'rxjs/operators';
 export function loginInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> {
 
   // 1. Ne traite que les requêtes vers /auth/login
-  if (!req.url.includes('/api/login')) {
+  if (!req.url.includes('/api/adminlogin')) {
     return next(req); // Laisse passer les autres requêtes
   }
   console.log('🔐 Intercepteur Login activé pour :', req.url); 
