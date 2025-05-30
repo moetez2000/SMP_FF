@@ -1,47 +1,34 @@
-<div class="login-wrapper">
-  <nz-card class="login-card" nzBordered="false">
-    <h2 class="login-title">Connexion Admin</h2>
-    <form nz-form [formGroup]="loginForm" (ngSubmit)="submitForm()" class="custom-form">
+<div class="login-page">
+  <div class="login-left">
+  <img src="assets/dog.png" alt="Dogsitting">
 
+  </div>
+
+  <div class="login-right">
+     <img src="assets/paw.png" class="paw-right paw4" alt="">
+    <h2>CONNEXION <br>ADMIN</h2>
+    <form nz-form [formGroup]="loginForm" (ngSubmit)="submitForm()" class="custom-form">
       <nz-form-item>
         <nz-form-control [nzErrorTip]="'Email est requis'">
-          <input
-            type="email"
-            nz-input
-            formControlName="email"
-            placeholder="Email"
-            nzPrefixIcon="user"
-            class="login-input"
-          />
+          <input type="email" nz-input formControlName="email" placeholder="Email" nzPrefixIcon="user" />
         </nz-form-control>
       </nz-form-item>
-
       <nz-form-item>
         <nz-form-control [nzErrorTip]="'Mot de passe est requis'">
-          <input
-            type="password"
-            nz-input
-            formControlName="password"
-            placeholder="Mot de passe"
-            nzPrefixIcon="lock"
-            class="login-input"
-          />
+          <input type="password" nz-input formControlName="password" placeholder="Mot de passe" nzPrefixIcon="lock" />
         </nz-form-control>
       </nz-form-item>
-
       <nz-form-item>
-  <nz-form-control>
-    <div class="remember-me-container">
-      <label nz-checkbox formControlName="remember"></label>
-      <label class="remember-me-label" for="remember">Se souvenir de moi</label>
-    </div>
-  </nz-form-control>
-</nz-form-item>
-
-
+        <nz-form-control>
+          <div class="remember-me">
+            <label nz-checkbox formControlName="remember"></label>
+            <label class="remember-me-label">Se souvenir de moi</label>
+          </div>
+        </nz-form-control>
+      </nz-form-item>
       <button nz-button nzType="primary" [disabled]="loginForm.invalid" class="submit-btn">
         Connexion
       </button>
     </form>
-  </nz-card>
+  </div>
 </div>
