@@ -42,8 +42,8 @@
 
 /* État actif via routerLinkActive */
 .nav-link.active {
-background: linear-gradient(135deg, #a8e6cf 0%, #ffd3b6 100%);
-  color: #fff;
+background:  #1aa58a;
+  color: #dabc0d;
 }
 
 /* Masquer le texte du tooltip natif si besoin */

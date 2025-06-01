@@ -7,7 +7,11 @@ import { Component } from '@angular/core';
   styleUrl: './dashboard.component.css'
 })
 export class DashboardComponent {
-  ngOnInit() {
+    userName = 'Amal Dahmen';
+  totalPets = 5;
+  upcomingAppointments = 3;
+
+  messages = 12;  ngOnInit() {
     console.log('DashboardComponent chargé');
   }
   
