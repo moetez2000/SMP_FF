@@ -96,6 +96,19 @@
               <input nz-input type="email" [(ngModel)]="newPetSitter.email" name="email" required />
             </nz-form-control>
           </nz-form-item>
+          <nz-form-item>
+              <nz-form-label>Mot de passe</nz-form-label>
+              <nz-form-control>
+                <input nz-input type="password" [(ngModel)]="newPetSitter.password" name="password" required />
+              </nz-form-control>
+            </nz-form-item>
+
+            <nz-form-item>
+              <nz-form-label>Confirmation</nz-form-label>
+              <nz-form-control>
+                <input nz-input type="password" [(ngModel)]="newPetSitter.password_confirmation" name="password_confirmation" required />
+              </nz-form-control>
+            </nz-form-item>
         </div>
 
         <!-- COLONNE DROITE -->
@@ -146,19 +159,6 @@
           </nz-form-item>
 
           @if (!isEditMode) {
-            <nz-form-item>
-              <nz-form-label>Mot de passe</nz-form-label>
-              <nz-form-control>
-                <input nz-input type="password" [(ngModel)]="newPetSitter.password" name="password" required />
-              </nz-form-control>
-            </nz-form-item>
-
-            <nz-form-item>
-              <nz-form-label>Confirmation</nz-form-label>
-              <nz-form-control>
-                <input nz-input type="password" [(ngModel)]="newPetSitter.password_confirmation" name="password_confirmation" required />
-              </nz-form-control>
-            </nz-form-item>
 
             <nz-form-item>
               <nz-form-label>Certificat ACACED</nz-form-label>
